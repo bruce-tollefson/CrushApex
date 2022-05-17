@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_Upgraded_Membership__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Next Upgraded Membership</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bronze</fullName>
+                <default>true</default>
+                <label>Bronze</label>
+            </value>
+            <value>
+                <fullName>Silver</fullName>
+                <default>false</default>
+                <label>Silver</label>
+            </value>
+            <value>
+                <fullName>Gold</fullName>
+                <default>false</default>
+                <label>Gold</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,112 @@
+<template>
+  <lightning-card title="CDC/Platform Event Subscriber" icon-name="custom:custom14">
+      <div class="slds-m-around_medium">
+        <!-- Pick Replay Event Type -->
+        <lightning-combobox
+        name="replayType"
+        label="Select where you would like to Replay from"
+        placeholder="Select Replay From"
+        value="-1"
+        options={options}
+        onchange={handleReplayIdList}
+        required
+        ></lightning-combobox>
+        <!-- Add Replay Event Id if applicable -->
+        <template if:true={hasCustomReplay}>
+          <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" 
+              label="Enter some text"
+              required
+              onkeyup={updateReplayId}>
+            </lightning-input>
+          </div>
+        </template>
+        <!-- Add Subscription Channel -->
+        <div class="slds-p-top_small">
+          <p>Add your streaming channel</p>
+          <lightning-input label="Channel Name" value={channelName}
+              onchange={handleChannelName}>
+          </lightning-input>
+        </div>
+        <!-- Ask if only the single Replay Id should be used -->
+          <div class="slds-p-top_small">
+            <template if:true={hasCustomReplay}>
+              <div class="slds-p-around_small">
+                <lightning-input type="checkbox" label="Only get single replay event and not all after" name="input1" onchange={handleSingleReplayId}></lightning-input>
+              </div>
+            <!-- Subscribe, Single Event, Multiple Event, Clear -->
+            </template>
+            <lightning-button variant="success" label="Subscribe" title="Subscribe"
+                onclick={handleSubscribe}
+                class="slds-m-left_x-small">
+            </lightning-button>
+            <lightning-button-group>
+              <lightning-button variant="Brand" label="Single Event" title="Single Event"
+              onclick={handleSingleEvent} disabled={singleEvent}
+              class="slds-m-left_x-small"></lightning-button>
+              <lightning-button variant="Brand" label={multiEventStr} title="Multiple Events"
+              onclick={handleMultiEvent} disabled={multiEvent}
+              class="slds-m-left_x-small"></lightning-button>
+            </lightning-button-group>
+                <lightning-button variant="neutral" label="Clear" title="Clear"
+                onclick={handleClear}
+                class="slds-m-left_x-small">
+            </lightning-button>
+          </div>
+      </div>
+      <!-- Subscribed -->
+      <template if:true={isSubscribedChannels}>
+        <lightning-radio-group name="radioGroup" 
+          class="slds-m-left_medium"
+          label="Select to unsubscribe"
+          options={subscribedChannels}
+          type="radio"
+          onchange={handleUnsubChannelChange}>
+        </lightning-radio-group>
+        <!-- Unsubscribe -->
+        <div class="slds-m-around_medium">
+          <lightning-button 
+            variant="destructive" 
+            label="Unsubscribe" 
+            title="Unsubscribe" 
+            onclick={handleUnsubscribe} 
+            disabled={isUnsubscribeDisabled}>
+          </lightning-button>
+        </div>
+      </template>
+
+      <!-- Divider -->
+      <div style="border-top-style: dotted; border-top-width: 2px; border-top-color: coral;"></div>
+      <!-- Spinner -->
+      <div if:true={showSpinner} class="slds-p-around_large">
+        <div if:true={showSpinner} class="slds-is-relative">
+            <lightning-spinner
+              variant="brand"
+              alternative-text="Loading...">
+            </lightning-spinner>
+        </div>
+      </div>
+      <!-- Single Output -->
+      <template if:true={singleEvent}>
+            <pre>
+                <code>
+                    {lastMessage}
+                </code>
+            </pre>
+      </template>
+      <!-- Multi-Output -->
+        <template if:true={lastMessage}>
+          <template if:false={singleEvent}>
+            <template if:true={events}>
+                <template for:each={events} for:item="evt">
+                  <pre key={evt.ReplayId} class="slds-border_bottom slds-p-bottom_small">
+                      <code>
+                          {evt.message}
+                      </code>
+                  </pre>
+          </template>
+      </template>
+    </template>
+  </template>
+  </lightning-card>
+</template>
